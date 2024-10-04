@@ -1,9 +1,6 @@
-import { createAsyncThunk , createSlice } from "@reduxjs/toolkit";  
+import { createAsyncThunk , createSlice, PayloadAction } from "@reduxjs/toolkit";  
 import axios from "axios";
 import { ProductsData , ProductState } from "@eli/store/ProductData";
-
-
-
 
 export const fecthDataProduct = createAsyncThunk<ProductsData[]>(
     'products/fecthDataProduct',
@@ -13,23 +10,35 @@ export const fecthDataProduct = createAsyncThunk<ProductsData[]>(
     }
 )
 
-// =====================================================================================
-
-
-
 const initialState: ProductState = {
     products: [],
+    categories : [],
+    filteredProducts: [],
+    selectedCategory: "",
     loading: false,
     error: null,
 } 
 
 
-
-
 const productSlice  = createSlice({ 
     name: 'product',
     initialState,
-    reducers : {}, /* sementara kosong sebab belum perlu ada nya action disini */
+    reducers : {
+        filterData (state , action : PayloadAction<{  searchTerm: string , selectedCategory : string  }> ) {
+              const { searchTerm, selectedCategory } = action.payload;
+              state.filteredProducts = state.products.filter((product) => {
+              const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase());
+              const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
+              return matchesSearch && matchesCategory;
+            });
+        },
+        categoryProduct (state , action: PayloadAction<{ searchTerm: string , selectedCategory : string }>) {
+              const {selectedCategory} = action.payload;
+              state.filteredProducts  = state.products.filter((product) => {
+              return selectedCategory ? product.category === selectedCategory : true
+               })
+        }
+    }, 
     extraReducers: (builder) => {
     builder 
     .addCase(fecthDataProduct.pending, (state) => {
@@ -39,6 +48,9 @@ const productSlice  = createSlice({
     .addCase(fecthDataProduct.fulfilled, (state, action) => {
         state.loading = false
         state.products = action.payload
+        state.filteredProducts = action.payload
+        state.categories = Array.from(new Set(action.payload.map(product => product.category)));
+
     })
     .addCase(fecthDataProduct.rejected ,(state , actions) => {
         state.loading = false
@@ -48,6 +60,6 @@ const productSlice  = createSlice({
 })
 
 
-
+export const { filterData, categoryProduct } = productSlice.actions
 export default productSlice.reducer
 

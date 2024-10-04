@@ -11,6 +11,9 @@ export interface ProductsData {
 
 export interface ProductState {
   products : ProductsData[];
+  filteredProducts : ProductsData[]
+  categories : string[];
+  selectedCategory : string;
   loading : boolean;
   error: string | null;
 }

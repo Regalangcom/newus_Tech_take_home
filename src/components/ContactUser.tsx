@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDataUser } from "@eli/store/ProductSlice/UserDataSlice";
 import { TopLevel } from "@eli/store/ProductData";
 import { PuffLoader } from "react-spinners";
+import Modal from "./Modal";
 
 const ContactUser: React.FC = () => {
   const dispatch = useDispatch<DispatchApp>();
@@ -12,6 +13,13 @@ const ContactUser: React.FC = () => {
   );
 
   const [loadings, setloadings] = useState<boolean>(false);
+  const [showModal, setshowModal] = useState<boolean>(false);
+  const [selectedUser, setSelectedUser] = useState<TopLevel | null>(null);
+
+  const toggleModal = (user?: TopLevel) => {
+    setSelectedUser(user || null);
+    setshowModal((prev) => !prev);
+  };
 
   useEffect(() => {
     dispatch(fetchDataUser());
@@ -19,7 +27,7 @@ const ContactUser: React.FC = () => {
 
     setTimeout(() => {
       setloadings(false);
-    }, 9000);
+    }, 2000);
   }, [dispatch]);
 
   if (loading && loadings) return <div>loading ...</div>;
@@ -55,10 +63,45 @@ const ContactUser: React.FC = () => {
                 <p>Email: {user.email}</p>
                 <p>Phone: {user.phone}</p>
                 <p>Company: {user.company.name}</p>
-                <button className="text-blue-600 hover:underline">
+                <button
+                  className="inline-block mt-5 px-4 py-2 text-white bg-green-600 rounded hover:bg-purple-700 transition duration-200 "
+                  onClick={() => toggleModal(user)}
+                >
                   Detail
                 </button>
               </div>
+
+              <Modal open={showModal} onClose={() => toggleModal(user)}>
+                {selectedUser && (
+                  <div className="p-4" key={selectedUser.id}>
+                    <h2 className="text-xl font-semibold mb-2">
+                      {selectedUser.name}
+                    </h2>
+                    <h4 className="font-medium">
+                      Username: {selectedUser.username}
+                    </h4>
+                    <h4 className="font-medium">Email: {selectedUser.email}</h4>
+                    <h4 className="font-medium">Phone: {selectedUser.phone}</h4>
+                    <h4 className="font-medium">
+                      Street: {selectedUser.address.street}
+                    </h4>
+                    <h4 className="font-medium">
+                      City: {selectedUser.address.city}
+                    </h4>
+                    <h4 className="font-medium">
+                      Zip Code: {selectedUser.address.zipcode}
+                    </h4>
+                    <h4 className="font-medium">
+                      Website: {selectedUser.website}
+                    </h4>
+                    <ul className="mt-2">
+                      <li>Company: {selectedUser.company.name}</li>
+                      <li>Catch Phrase: {selectedUser.company.catchPhrase}</li>
+                      <li>BS: {selectedUser.company.bs}</li>
+                    </ul>
+                  </div>
+                )}
+              </Modal>
             </div>
           ))
         )}
