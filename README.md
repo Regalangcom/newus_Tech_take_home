@@ -1,66 +1,36 @@
-# React + TypeScript + Vite
+# About Regarding the results of the coding test to become part of Newus Technology - Read the note at the end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![alt](./Screenshot_from_2024-10-05_4-09-56.png)
 
-Currently, two official plugins are available:
+## Quiz3 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Create a React component that has a search and filter feature. Use a data array that contains a list of products, each with a name, price, and category. The component must:
 
-## Expanding the ESLint configuration
+1. Display a list of products.
+2. Have an input for searching for product names.
+3. Have a filter for selecting product categories.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+![alt](./Screenshot_from_2024-10-05_14-10-35.png)
 
-- Configure the top-level `parserOptions` property like this:
+## Quiz4 Features
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+Create a simple React app that fetches user data from a public API (example: https://jsonplaceholder.typicode.com/users ) and displays a list of those users. Include the following features:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+1. Loading indicator while data is being fetched.
+2. Error handling if the fetch fails.
 
 ```js
-// eslint.config.js
-import react from "eslint-plugin-react";
+const filterProducts = products.filter((product) => {
+  const matchesSearch = product.title
+    // saya gunakan toLowerCase agar menjadi case insensitive
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase());
+  const matchesCategory = selectedCategory
+    ? product.category === selectedCategory
+    : true;
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
+  return matchesSearch && matchesCategory;
 });
-```
-
-```
-  const filterProducts = products.filter((product) => {
-    const matchesSearch = product.title
-      // saya gunakan toLowerCase agar menjadi case insensitive
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory
-      ? product.category === selectedCategory
-      : true;
-
-    return matchesSearch && matchesCategory;
-  });
 ```
 
 ```const Categorys = Array.from(
