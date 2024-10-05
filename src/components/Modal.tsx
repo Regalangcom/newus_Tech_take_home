@@ -19,7 +19,7 @@ export default function Modal(props: ModalProps): ReturnType<FC> {
         }`}
       >
         <div className="border-b p-4">
-          <h1 className="text-xl font-semibold">Modal Title</h1>
+          <h1 className="text-xl font-semibold">Information Modal</h1>
         </div>
         <div className="p-4">{props.children}</div>
         <div className="p-4 flex justify-end">
