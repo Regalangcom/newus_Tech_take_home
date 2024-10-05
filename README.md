@@ -1,3 +1,13 @@
+# Get started
+```
+npm install
+```
+# Running Project
+
+```
+npm run dev 
+```
+
 # About Regarding the results of the coding test to become part of Newus Technology - Read the note at the end
 
 ![alt](./Screenshot_from_2024-10-05_4-09-56.png)
