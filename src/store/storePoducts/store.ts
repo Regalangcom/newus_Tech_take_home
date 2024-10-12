@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productReducers from '@eli/store/ProductSlice/ProductDataSlice'
-import userReducers from "@eli/store/ProductSlice/UserDataSlice"
+import productReducers from '@eli/store/ProductSlice/ProductDataSlice';
+import userReducers from "@eli/store/ProductSlice/UserDataSlice";
 
 
 const store = configureStore({
@@ -9,7 +9,6 @@ const store = configureStore({
         users : userReducers
     }
 })
-
 
 export type RootState = ReturnType<typeof store.getState>
 export type DispatchApp =  typeof store.dispatch
